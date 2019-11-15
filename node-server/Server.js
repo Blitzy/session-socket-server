@@ -13,21 +13,28 @@ for (var k in interfaces) {
     }
 }
 
-const port = 5556;
+const version = "0.8.0";
 
 exports.Server = class Server {
 
-	constructor(){
+	constructor(args) {
 
+	this.args = args;
+
+	console.log();
+	console.log("Starting server...");
+	console.log("version: " + version);
+	
     this.session = new Session(this);
 
 	this.sock = require('dgram').createSocket({type: 'udp4', reuseAddr: true});
 	this.sock.on('message',(msg,rinfo)=>{this.onPacket(msg,rinfo);});
 	this.sock.on('error', (e)=>{ this.onError(e); });
     this.sock.on('close', (e)=>{ this.onDisconnect(e); });
-	this.sock.bind(port,()=>{
+	this.sock.bind(this.args.port,()=>{
 		this.sock.setBroadcast(true);
-		console.log("Server is listening on " + addresses[0] + ":" + port);
+		console.log();
+		console.log("Server is listening on " + addresses[0] + ":" + this.args.port);
 		console.log();
 		this.loop();
 		});
@@ -45,7 +52,10 @@ exports.Server = class Server {
 		//console.log("packet from " + rinfo.address +":"+rinfo.port+" : "+ packet);
 		if(packet.length < 4) return;//not enough data, invalid packet.
 		const packetType = packet.slice(0,4).toString();
-		console.log("Recieved Packet Type: '" + packetType + "' from " + rinfo.address + ":" + rinfo.port);
+
+		if (this.args.debugPackets) {
+			console.log("Recieved Packet Type: '" + packetType + "' from " + rinfo.address + ":" + rinfo.port);
+		}
 
 		switch(packetType){
 			case "JOIN": {
@@ -76,7 +86,9 @@ exports.Server = class Server {
 					this.session.updateSessionData(udatObj); // store session data on this server.
 					this.session.broadcastExcept(packet, senderDevice); //send packet to session, to send to all devices except the sender's.
 				} else {
-					console.warn("Ignoring session data update event for device " + rinfo.address + ":" + rinfo.port + " that is not connected to the session.");
+					if (this.args.debugPackets) {
+						console.warn("Ignoring session data update event for device " + rinfo.address + ":" + rinfo.port + " that is not connected to the session.");
+					}
 				}
 				break;
 			}
@@ -92,7 +104,9 @@ exports.Server = class Server {
 				if (device) {
 					device.keepAlive();
 				} else {
-					console.warn("Ignoring keep alive event for device " + rinfo.address + ":" + rinfo.port + " that is not connected to the session.");
+					if (this.debugDevices) {
+						console.warn("Ignoring keep alive event for device " + rinfo.address + ":" + rinfo.port + " that is not connected to the session.");
+					}
 				}
                 break;
 			}

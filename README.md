@@ -93,3 +93,8 @@ What you store and how you store it is really up to you.
 1. Send `RDAT` message to the server.
 2. Wait for `GDAT` response from server.
 3. Strip `GDAT` from received response and you are left with the raw JSON string of all the current session data.
+
+# Contribute
+If you wish to contribute to this project feel free to open up a pull request and I will review it for inclusion.
+
+Same goes for bug fixes, if you find any, feel free to open up an Issue here on the GitHub repo or fix it yourself and create a pull request so we may all benefit.

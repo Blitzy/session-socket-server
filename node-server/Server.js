@@ -21,7 +21,6 @@ exports.Server = class Server {
 
 	this.args = args;
 
-	console.log();
 	console.log("Starting server...");
 	console.log("version: " + version);
 	

@@ -1,3 +1,5 @@
+// require('console.table');
+
 exports.Args = class Args {
 
     constructor() {
@@ -31,6 +33,8 @@ exports.Args = class Args {
                 this.processArg(rawArg, null);
             }
         }
+        
+        console.log();
     }
 
     processArg(key, value) {
@@ -93,6 +97,32 @@ exports.Args = class Args {
     logArgError(msg) {
         console.error(`  > ERROR: ${msg}`);
     }
+}
+
+exports.PrintHelp = function() {
+    let argHeader = "Arg"
+    let descHeader = "Description";
+
+    console.log();
+    console.log("=================");
+    console.log("= Argument Help =");
+    console.log("=================");
+    console.log("  > port");
+    console.log("      The port that the server will communicate on.");
+    console.log("      example: port=1234");
+    console.log();
+    console.log("  > debugpackets");
+    console.log("     Wether or not the server should print packet information to the console.");
+    console.log("     example: debugpackets=1 | debugpackets=true");
+    console.log();
+    console.log("  > debugdevices");
+    console.log("      Wether or not the server should print connected device information to the console.");
+    console.log("      example: debugdevices=1 | debugdevices=true");
+    console.log();
+    console.log("  > debugsessiondata");
+    console.log("      Wether or not the server should print raw session data to the console.");
+    console.log("      example: debugsessiondata=1 | debugsessiondata=true");
+    console.log();
 }
 
 parseBoolean = function(string) {

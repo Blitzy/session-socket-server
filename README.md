@@ -20,7 +20,7 @@ A simple Node JS based socket server useful for session based persistence and da
 
 ## Messaging
 
-Messages to and from the server should include a 4 letter message type indicator.
+Messages to and from the server should pre-append a 4 letter message type indicator.
 The following are the currently supported message types:
 
 | 4-Letter Type | Description |

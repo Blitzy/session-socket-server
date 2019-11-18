@@ -13,7 +13,7 @@ A simple Node JS based socket server useful for session based persistence and da
     - You can also start the server by using the command `node main.js` while in the `node-server` folder in your operating system's repsective command line.
 4. If the server started correctly you should see something like this in your operating system's command-line: 
     ```
-    > ryancook@ryan-macbook:~/Git/MoreOrLessFashion/node-server$ node main.js
+    > ryancook@ryan-macbook:~/Git/seesion-socket-server/node-server$ node main.js
     > new session beginning...
     > Server is listening on 192.168.0.66:5556
     ```

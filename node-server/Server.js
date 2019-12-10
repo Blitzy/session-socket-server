@@ -110,7 +110,14 @@ exports.Server = class Server {
                 break;
 			}
 			case "QUIT": {
-				this.session.onDisconnect(this.session.lookupDevice(rinfo));
+				let device = this.session.lookupDevice(rinfo);
+				if (device) {
+					this.session.onDisconnect(this.session.lookupDevice(rinfo));
+				} else {
+					if (this.debugDevices) {
+						console.warn("Ignoring quit event for device " + rinfo.address + ":" + rinfo.port + " that is not connected to the session.");
+					}
+				}
 				break;
 			}
 		}
